@@ -28,4 +28,38 @@
         ORDER BY
             popularity DESC ;
     </select>
+    <select id="getTagPopularityCertain" resultType="com.example.java2_pro.entity.special.TagWithPopularity">
+        WITH x AS (
+            SELECT
+                ctq.tag AS topic,
+                COUNT(*) AS total_question_count,
+                SUM(q.answer_count) AS total_answer_count,
+                SUM(q.view_count) AS total_view_count
+            FROM
+                connection_tag_and_question ctq
+                    JOIN
+                question q ON ctq.question_id = q.question_id
+            WHERE
+                ctq.tag = #{tag_name}
+            GROUP BY
+                ctq.tag
+        )
+        SELECT
+            topic,
+            total_question_count,
+            total_answer_count,
+            total_view_count,
+            SUM(total_view_count + total_answer_count + total_question_count) AS popularity
+        FROM
+            x
+        GROUP BY
+            topic, total_question_count, total_answer_count, total_view_count
+        ORDER BY
+            popularity DESC;
+    </select>
+    <select id="getRelevantTagAll" resultType="String">
+        SELECT related_tag
+        FROM connection_tag_and_tag
+        WHERE tag = #{tag_name};
+    </select>
 </mapper>

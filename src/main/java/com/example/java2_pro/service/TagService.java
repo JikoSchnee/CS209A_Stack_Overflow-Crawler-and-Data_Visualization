@@ -30,24 +30,25 @@ public class TagService {
     public List<TagWithPopularity> getTagPopularityAll(){
         return tagMapper.getTagPopularityAll();
     }
-//    //计算tag在采到的Question中出现了几次
-//    public List<Map<String, Object>> tagCounts() {
-//        QueryWrapper<QuestionTagConnect> wrapper = new QueryWrapper<>();
-//        wrapper.select("tag_name", "count(*) as count").groupBy("tag_name");
-//        return questionTagConnectMapper.selectMaps(wrapper);
-//    }
-//    //Question对应的tag组
-//    public List<Map<String, Object>> tagGroups() {
-//        QueryWrapper<QuestionTagConnect> wrapper = new QueryWrapper<>();
-//        wrapper
-//            .select("question_id", "string_agg(tag_name, ',' ORDER BY tag_name) as tag_group")
-//            .groupBy("question_id");
-//        return questionTagConnectMapper.selectMaps(wrapper);
-//    }
-//
-//    public List<QuestionTagConnect> tagsByQuestionId(int questionID) {
-//        QueryWrapper<QuestionTagConnect> wrapper = new QueryWrapper<>();
-//        wrapper.eq("question_id", questionID);
-//        return questionTagConnectMapper.selectList(wrapper);
-//    }
+
+    // 返回某一Tag，及其相关问题总数、回答总数、浏览总数以及三者的总合
+    public TagWithPopularity getTagPopularityCertain(String tagName){
+        return tagMapper.getTagPopularityCertain(tagName);
+    }
+
+    // 返回某一Tag相关的Tag
+    public List<String> getRelevantTagAll(String tagName){
+        return tagMapper.getRelevantTagAll(tagName);
+    }
+
+    // 返回某一Tag相关的Tag的前number个
+    public List<String> getRelevantTagPart(String tagName, int number){
+        List<String> temp = tagMapper.getRelevantTagAll(tagName);
+        if (number <= temp.size()){
+            return temp.subList(0,number);
+        }else {
+            return temp;
+        }
+    }
+
 }
