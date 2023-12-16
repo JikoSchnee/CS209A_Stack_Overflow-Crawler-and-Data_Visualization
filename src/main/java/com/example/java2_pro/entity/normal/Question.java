@@ -1,4 +1,4 @@
-package com.example.java2_pro.entity;
+package com.example.java2_pro.entity.normal;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

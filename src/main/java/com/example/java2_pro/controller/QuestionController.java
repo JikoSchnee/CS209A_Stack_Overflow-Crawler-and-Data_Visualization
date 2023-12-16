@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.java2_pro.service.questionService;
+import com.example.java2_pro.service.QuestionService;
 @RestController
 @RequestMapping("/api/question")
-public class questionController {
+public class QuestionController {
     @Autowired
-    private questionService questionService;
+    private QuestionService questionService;
 }

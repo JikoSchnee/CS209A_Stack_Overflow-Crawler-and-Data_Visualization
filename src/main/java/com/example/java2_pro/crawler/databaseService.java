@@ -16,8 +16,6 @@ public class databaseService {
     private final String password; // 数据库密码
     private final String database; // 数据库名
 
-    private final StanfordCoreNLPService stanfordCoreNLPService;
-
     public databaseService(String host, int port, String user, String password, String database) {
         // 初始化数据库连接配置
         this.host = host;
@@ -26,7 +24,6 @@ public class databaseService {
         this.password = password;
         this.database = database;
         connection = null;
-        stanfordCoreNLPService = new StanfordCoreNLPService();
     }
 
     public boolean connect(){
