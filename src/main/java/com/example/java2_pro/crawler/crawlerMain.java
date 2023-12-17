@@ -13,14 +13,14 @@ public class crawlerMain {
     private static final String KEY = "eiSfjZ8gjeVtdltYIc)SbQ((";
 
     public static void main(String[] args) throws SQLException, IOException {
-        databaseService databaseService =
-            new databaseService(SQL_HOST,SQL_PORT,SQL_USER,SQL_PASSWORD,SQL_DATABASE);
-        dataCollector dataCollector = new dataCollector(databaseService, 100, 10, 1000,KEY);
-        databaseService.connect();
-        databaseService.createTable();
-        databaseService.disableForeignKeyCheck();
-        dataCollector.collectData();
-        databaseService.enableForeignKeyCheck();
-        databaseService.close();
+//        databaseService databaseService =
+//            new databaseService(SQL_HOST,SQL_PORT,SQL_USER,SQL_PASSWORD,SQL_DATABASE);
+//        dataCollector dataCollector = new dataCollector(databaseService, 100, 10, 1000,KEY);
+//        databaseService.connect();
+//        databaseService.createTable();
+//        databaseService.disableForeignKeyCheck();
+//        dataCollector.collectData();
+//        databaseService.enableForeignKeyCheck();
+//        databaseService.close();
     }
 }

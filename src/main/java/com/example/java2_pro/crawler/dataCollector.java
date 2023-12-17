@@ -145,7 +145,7 @@ public class dataCollector {
         int pageTotal = totalNumber / pageSize;         // 达到数据量所需的总页数
         System.out.println(pageTotal);
         pageTotal *= pageStep;
-        pageTotal += 1;                                 // 达到数据量最终到达的页
+//        pageTotal += 1;                                 // 达到数据量最终到达的页
         System.out.println(pageTotal);
         if (pageTotal > pageTotalWeb){
             System.out.println(redColorCode+"终止页超出总页数"+resetColorCode);

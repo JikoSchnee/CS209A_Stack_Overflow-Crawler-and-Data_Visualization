@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java2_pro.mapper.QuestionMapper">
+    <select id="getQuestionsWithKeywords" resultType="com.example.java2_pro.entity.special.QuestionWithTags">
+        SELECT
+            q.question_id AS question_id,
+            MAX(q.question_title) AS title,
+            MAX(q.question_body) AS question_body,
+            STRING_AGG(DISTINCT ctq.tag, ',') AS tags
+        FROM
+            question q
+        LEFT JOIN
+            connection_tag_and_question ctq ON q.question_id = ctq.question_id
+        WHERE
+            q.question_title LIKE CONCAT('%', #{keyword}, '%')
+            OR q.question_body LIKE CONCAT('%', #{keyword}, '%')
+            OR ctq.tag LIKE CONCAT('%', #{keyword}, '%')
+        GROUP BY
+        q.question_id
+    </select>
+    <select id="getQuestionsCountByKeyword" resultType="Integer">
+        SELECT COUNT(DISTINCT q.question_id) AS total_questions
+        FROM question q
+                 LEFT JOIN connection_tag_and_question ctq ON q.question_id = ctq.question_id
+        <if test="keyword != null and keyword != ''">
+        WHERE
+            q.question_title LIKE CONCAT('%', #{keyword}, '%')
+            OR q.question_body LIKE CONCAT('%', #{keyword}, '%')
+            OR ctq.tag LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+</mapper>
