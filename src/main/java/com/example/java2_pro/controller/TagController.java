@@ -36,18 +36,22 @@ public class TagController {
     // 返回某个Tag及其热度
     @GetMapping("/popularity/{tag}")
     public TagWithPopularity getTagPopularityQuery(@PathVariable String tag){
+        tag = tag.toLowerCase();
         return tagService.getTagPopularityCertain(tag);
     }
 
     // 返回某个Tag相关的Tag
     @GetMapping("/relevant/{tag}")
     public List<String> getRelevantTagAll(@PathVariable String tag){
+        tag = tag.toLowerCase();
         return tagService.getRelevantTagAll(tag);
     }
 
     // 返回某个Tag相关的前number个Tag
     @GetMapping("/relevant/{tag}/{number}")
     public List<String> getRelevantTagPart(@PathVariable String tag, @PathVariable int number){
+        tag = tag.toLowerCase();
         return tagService.getRelevantTagPart(tag,number);
     }
+
 }

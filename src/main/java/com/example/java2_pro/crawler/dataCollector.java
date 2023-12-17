@@ -17,13 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class dataCollector {
+    private String key;
     private int totalNumber; // 获取的数据条数
     private int pageSize; // 分页获取数据时每页的大小 [1, 100]
     private int pageStep; // 分页获取数据时每次获取所隔的页数
     private int tagPageSize = 100; // 获取相关标签的条数
-    private final List<JSONObject> questionList;    // 获取问题JSON列表
-//    private final List<JSONObject> answerList;      // 获取回答JSON列表
-//    private final List<JSONObject> commentList;     // 获取评论JSON列表
+    private List<JSONObject> questionList;    // 获取问题JSON列表
     private List<String> tagList;                      // 在数据库中获取Tag列表
     private List<JSONObject> relatedTagList;        // 从网页中获取的相关Tag列表
     private int totalQuestions; // 当前StackOverflow上的问题总数（用来衡量数据爬取的普适性）
@@ -44,7 +43,7 @@ public class dataCollector {
         this.totalNumber = totalNumber;
     }
 
-    public dataCollector (databaseService databaseService, int pageSize, int pageStep, int totalNumber) throws IOException {
+    public dataCollector (databaseService databaseService, int pageSize, int pageStep, int totalNumber, String key) throws IOException {
         // 自定义每页大小和每次获取所隔的页数
         this.databaseService = databaseService;
         questionList = new ArrayList<>();
@@ -53,17 +52,21 @@ public class dataCollector {
         this.pageSize = pageSize;
         this.pageStep = pageStep;
         this.totalNumber = totalNumber;
+        this.key = key;
         refresh();
     }
-    public static Connection connect() {
+    public Connection connect() {
         try {
             // 加载PostgreSQL JDBC驱动
             Class.forName("org.postgresql.Driver");
 
             // 建立数据库连接
-            String url = "jdbc:postgresql://localhost:5432/stackoverflow_db";
-            String user = "checker";
-            String password = "123456";
+            String url = String.format("jdbc:postgresql://%s:%s/%s",this.databaseService.getHost(),this.databaseService.getPort(),this.databaseService.getDatabase());
+//            String url = "jdbc:postgresql://localhost:5432/stackoverflow_db";
+            String user = this.databaseService.getUser();
+//            String user = "checker";
+            String password = this.databaseService.getPassword();
+//            String password = "123456";
             Connection connection = DriverManager.getConnection(url, user, password);
 
             return connection;
@@ -141,7 +144,8 @@ public class dataCollector {
         int pageTotalWeb = totalQuestions / pageSize;   // 网站上的总页数
         int pageTotal = totalNumber / pageSize;         // 达到数据量所需的总页数
         System.out.println(pageTotal);
-        pageTotal *= pageStep;                          // 达到数据量最终到达的页
+        pageTotal *= pageStep;
+        pageTotal += 1;                                 // 达到数据量最终到达的页
         System.out.println(pageTotal);
         if (pageTotal > pageTotalWeb){
             System.out.println(redColorCode+"终止页超出总页数"+resetColorCode);
@@ -149,11 +153,12 @@ public class dataCollector {
         }
 
         //获取提问
+        int sum = 0;
         for (int i = 1;i<=pageTotal;i+=pageStep) {
             // 按照activity排序，获取每隔pageStep页的pageSize个问题
             info(purpleBoldColorCode + "获取所有提问数据ing: " + (int)(100 * ((double)i / pageTotal)) + "%" + resetColorCode);
             String url = "https://api.stackexchange.com/2.3/questions";
-            String params = String.format("page=%d&pagesize=%d&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!6WPIomo1fLW)M", i, pageSize);
+            String params = String.format("page=%d&pagesize=%d&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!6WPIomo1fLW)M&key=%s", i, pageSize, key);
             String apiURL = url + "?" + params;
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(apiURL);                          // 设定请求
@@ -170,19 +175,24 @@ public class dataCollector {
             }
             response.close();
             httpClient.close();
+
+            info(redColorCode + "该轮爬取Question数: " + questionList.size()+resetColorCode);
+            sum+=questionList.size();
+            // 将问题插入数据库
+            info(redColorCode + "插入该轮所有提问数据" + resetColorCode);
+            int temp = questionList.size();
+            for (int j = 0;j<temp;j++){
+                info(purpleBoldColorCode + (int)(100*(double) j/questionList.size())+"%" +resetColorCode);
+                JSONObject questionItem = questionList.get(j);
+                databaseService.insertQuestionRecord(questionItem);
+            }
+            questionList = new ArrayList<>();
+            info(redColorCode + "插入该轮提问数据完成" + resetColorCode);
         }
-        info(redColorCode + "爬取Question总数: " + questionList.size()+resetColorCode);
-        // 将问题插入数据库
-        info(redColorCode + "插入所有提问数据" + resetColorCode);
-        for (int i = 0;i<questionList.size();i++){
-            info(purpleBoldColorCode + (int)(100*(double) i/questionList.size())+"%" +resetColorCode);
-            JSONObject questionItem = questionList.get(i);
-            databaseService.insertQuestionRecord(questionItem);
-        }
-        info(redColorCode + "插入提问数据完成" + resetColorCode);
-        // 根据目前的tag获取相关tag
-//        tagService tagService = new tagService();
-//        tagList = tagService.getAllTag();
+        info(redColorCode + "///////////////////////////////////////////" + resetColorCode);
+        info(redColorCode + "插入共"+sum+"条问题数据" + resetColorCode);
+        info(redColorCode + "///////////////////////////////////////////" + resetColorCode);
+
         // 将tag插入数据库
         tagList = getTagFromDatabase();
         int cnt_temp = 0;
@@ -191,7 +201,7 @@ public class dataCollector {
             cnt_temp++;
             info(purpleBoldColorCode + "获取"+tag+"相关标签数据ing: " + (int)(100 * ((double)cnt_temp / total_temp)) + "%" + resetColorCode);
             String url = String.format("https://api.stackexchange.com/2.3/tags/%s/related",tag);
-            String params = String.format("page=%d&pagesize=%d&site=stackoverflow",1,tagPageSize);
+            String params = String.format("page=%d&pagesize=%d&site=stackoverflow&key=%s",1,tagPageSize,key);
             String apiURL = url + "?" + params;
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(apiURL);                          // 设定请求

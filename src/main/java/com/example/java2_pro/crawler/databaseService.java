@@ -1,12 +1,10 @@
 package com.example.java2_pro.crawler;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Map;
 
 public class databaseService {
     private Connection connection; // 数据库连接
@@ -15,6 +13,26 @@ public class databaseService {
     private final String user; // 数据库用户名
     private final String password; // 数据库密码
     private final String database; // 数据库名
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
 
     public databaseService(String host, int port, String user, String password, String database) {
         // 初始化数据库连接配置
@@ -26,7 +44,7 @@ public class databaseService {
         connection = null;
     }
 
-    public boolean connect(){
+    public void connect(){
         // 连接数据库
         try {
             connection = java.sql.DriverManager.getConnection(
@@ -35,11 +53,9 @@ public class databaseService {
                 password
 //                "jdbc:postgresql://localhost:5432/postgres"
             );
-            return true;
         } catch (java.sql.SQLException e) {
             System.out.println("Cannot connect to the database.");
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -205,13 +221,6 @@ public class databaseService {
         for (Object tag : questionJSON.getJSONArray("tags")) {
             insertConnectionTagAndQuestion((String) tag, questionJSON.getInteger("question_id"));
         }
-//        Map<String, Integer> apiCount = stanfordCoreNLPService.getAllJavaAPI(
-//            questionJSON.getString("body"));
-//        for (Map.Entry<String, Integer> entry : apiCount.entrySet()) {
-//            insertApi(entry.getKey());
-//            insertConnectionQuestionAndApi(questionJSON.getInteger("question_id"), entry.getKey(),
-//                entry.getValue());
-//        }
     }
 
     @Deprecated
