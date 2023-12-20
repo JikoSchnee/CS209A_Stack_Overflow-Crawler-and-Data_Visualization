@@ -25,6 +25,10 @@ public class TagService {
     public List<Tag> getAllTag(){
         return tagMapper.selectList(new QueryWrapper<>());
     }
+    // 返回十个课上相关Tag的热度
+    public List<TagWithPopularity> getTenTagPopularity() {
+        return tagMapper.getTenTagPopularity();
+    }
 
     // 返回所有的tag，相关问题总数、回答总数、浏览总数以及三者的总合
     public List<TagWithPopularity> getTagPopularityAll(){

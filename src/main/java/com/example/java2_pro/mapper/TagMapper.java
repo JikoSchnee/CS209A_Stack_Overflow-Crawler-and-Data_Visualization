@@ -13,4 +13,5 @@ public interface TagMapper extends BaseMapper<Tag> {
     List<TagWithPopularity> getTagPopularityAll();
     TagWithPopularity getTagPopularityCertain(@Param("tag_name") String tagName);
     List<String> getRelevantTagAll(@Param("tag_name") String tagName);
+    List<TagWithPopularity> getTenTagPopularity();
 }
