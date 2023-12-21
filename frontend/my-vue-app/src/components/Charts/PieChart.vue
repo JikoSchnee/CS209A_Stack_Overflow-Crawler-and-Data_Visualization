@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 
 export default {
     props: {
@@ -12,20 +12,20 @@ export default {
             required: true,
         },
     },
-    mounted() {
-        // 基于准备好的 dom，初始化 echarts 实例
-        const myChart = echarts.init(this.$refs.echartsContainer);
-
-        // 使用传递的数据更新图表
-        myChart.setOption({
-            series: [
-                {
-                    type: 'pie',
-                    data: this.chartData
-                }
-            ]
-        });
-    },
+    // mounted() {
+    //     console.log(this.chartData)
+    //     // 基于准备好的 dom，初始化 echarts 实例
+    //     const myChart = echarts.init(this.$refs.echartsContainer);
+    //     // 使用传递的数据更新图表
+    //     myChart.setOption({
+    //         series: [
+    //             {
+    //                 type: 'pie',
+    //                 data: this.chartData
+    //             }
+    //         ]
+    //     });
+    // },
 };
 </script>
 

@@ -1,32 +1,35 @@
 
 <template>
     <div>
-        <PieChart :chart-data="data1"></PieChart>
-        <PieChart :chart-data="data2"></PieChart>
-        <PieChart :chart-data="data3"></PieChart>
-        <PieChart :chart-data="data4"></PieChart>
+      <div ref="echartsContainer" style="width: 100%; height: 400px;"></div>
+<!--        <PieChart :chart-data="data1"></PieChart>-->
+<!--        <PieChart :chart-data="data2"></PieChart>-->
+<!--        <PieChart :chart-data="data3"></PieChart>-->
+<!--        <PieChart :chart-data="data4"></PieChart>-->
     </div>
 </template>
 
 <script>
 
 import {defineComponent} from "vue";
-import PieChart from "@/components/Charts/PieChart.vue";
+// import PieChart from "@/components/Charts/PieChart.vue";
+import * as echarts from 'echarts';
 
 export default defineComponent({
-    components: {PieChart},
+    // components: {PieChart},
     data(){
         return {
-            data1: [{value: 200, name: 'damn'}],
-            data2: [],
-            data3: [],
-            data4: []
+            data1: [],
+            // data2: [],
+            // data3: [],
+            // data4: []
         }
     },
-    created() {
+    mounted() {
         this.updateData();
     },
-    methods: {
+
+  methods: {
         updateData(){
             this.request.get('/api/tag/popularity/ten')
                 .then(data => {
@@ -41,6 +44,18 @@ export default defineComponent({
                         value: item.totalQuestionCount,
                         name: item.topic,
                     }));
+                  this.$nextTick(() => {
+                    const myChart = echarts.init(this.$refs.echartsContainer);
+                    myChart.setOption({
+                      series: [
+                        {
+                          type: 'pie',
+                          data: this.data1
+                        }
+                      ]
+                    });
+                  });
+
                     // data.forEach(item => {
                     //     cnt += 1;
                     //     tags.push(item.topic);
