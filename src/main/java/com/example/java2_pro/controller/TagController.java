@@ -16,12 +16,6 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    // 返回10个课上相关的Tag的热度
-    @GetMapping("popularity/ten")
-    public List<TagWithPopularity> getTenTagPopularity() {
-        return tagService.getTenTagPopularity();
-    }
-
     // 返回所有的Tag与其热度
     @GetMapping("/popularity/all")
     public List<TagWithPopularity> getTagPopularityAllQuery(){
