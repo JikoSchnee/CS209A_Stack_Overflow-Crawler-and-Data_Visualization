@@ -1,29 +1,10 @@
 <template>
     <div>
-        <el-row :gutter="20" class="el-row">
-            <el-col ><div class="grid-content bg-purple">
-                <h2>Topic Popularity</h2>
+        <el-row :gutter="20" class="grid-content bg-purple">
+            <el-col ><div >
+                <h2>Bug Popularity</h2>
                 <div>
-                    <div class="chart-row">
-                        <div class="chart-container">
-                            <div class="chart-title">Compared By Question Number</div>
-                            <div ref="echartsContainer" class="chart"></div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-title">Compared By Answer Number</div>
-                            <div ref="echartsContainer2" class="chart"></div>
-                        </div>
-                    </div>
-                    <div class="chart-row">
-                        <div class="chart-container">
-                            <div class="chart-title">Compared By View</div>
-                            <div ref="echartsContainer3" class="chart"></div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-title">Compared Comprehensively</div>
-                            <div ref="echartsContainer4" class="chart"></div>
-                        </div>
-                    </div>
+
                 </div>
             </div></el-col>
         </el-row>
@@ -33,17 +14,12 @@
 <script>
 
 import {defineComponent} from "vue";
-// import PieChart from "@/components/Charts/PieChart.vue";
 import * as echarts from 'echarts';
 
 export default defineComponent({
-    // components: {PieChart},
     data() {
         return {
-            data1: [],
-            data2: [],
-            data3: [],
-            data4: []
+
         }
     },
     mounted() {
@@ -54,12 +30,6 @@ export default defineComponent({
             this.request.get('/api/tag/popularity/ten')
                 .then(data => {
                     console.log(data);
-                    // const tags = [];
-                    // const questionCount = [];
-                    // const answerCount = [];
-                    // const viewCount = [];
-                    // const totalCount = [];
-                    // let cnt = 0;
                     this.data1 = data.map(item => ({
                         value: item.totalQuestionCount,
                         name: item.topic,
