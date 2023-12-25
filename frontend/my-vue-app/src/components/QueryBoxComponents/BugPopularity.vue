@@ -83,9 +83,6 @@ export default defineComponent({
                                 }
                             ]
                         });
-                        // myChart.resize({
-                        //     width: 400
-                        // })
                     });
 
                     console.log(this.data1)

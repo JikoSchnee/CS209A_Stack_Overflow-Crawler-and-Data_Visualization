@@ -2,8 +2,9 @@
     <div id="app">
         <testTest />
         <query-box />
-        <TopicPopularity></TopicPopularity>
-        <BugPopularity></BugPopularity>
+<!--        <TopicPopularity></TopicPopularity>-->
+<!--        <BugPopularity></BugPopularity>-->
+        <TopicWordCloud></TopicWordCloud>
         <BarChart :chartData="barChartData1" />
         <BarChart :chartData="barChartData2" />
     </div>
@@ -13,14 +14,16 @@
 import testTest from "@/components/testTest.vue";
 import BarChart from "@/components/Charts/BarChart.vue";
 import QueryBox from "@/components/QueryBox.vue";
-import TopicPopularity from "@/components/QueryBoxComponents/TopicPopularity.vue";
-import BugPopularity from "@/components/QueryBoxComponents/BugPopularity.vue";
+// import TopicPopularity from "@/components/QueryBoxComponents/TopicPopularity.vue";
+// import BugPopularity from "@/components/QueryBoxComponents/BugPopularity.vue";
+import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
 
 export default {
     name: 'App',
     components: {
-        TopicPopularity,
-        BugPopularity,
+        TopicWordCloud,
+        // TopicPopularity,
+        // BugPopularity,
         QueryBox,
         testTest,
         BarChart,
