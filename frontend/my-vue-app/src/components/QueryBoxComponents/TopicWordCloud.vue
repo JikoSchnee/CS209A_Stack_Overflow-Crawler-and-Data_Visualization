@@ -45,7 +45,7 @@ export default {
     methods: {
         async queryWordCloud() {
             try {
-                let str = '/api/tag/relevant/' + this.input + '/50'
+                let str = '/api/tag/relevant/' + this.input.replace(/\s+/g, '-') + '/50'
                 this.request.get(str)
                     .then(tagsArray => {
                         console.log(tagsArray)
