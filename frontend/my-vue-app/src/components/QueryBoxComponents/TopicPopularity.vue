@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-row :gutter="20" class="el-row">
-            <el-col ><div class="grid-content bg-purple">
-                <h2>Topic Popularity</h2>
+            <el-col ><div class="grid-content">
+<!--                <h2>Topic Popularity</h2>-->
                 <div>
                     <div class="chart-row">
                         <div class="chart-container">
@@ -51,15 +51,22 @@ export default defineComponent({
     },
     methods: {
         updateData() {
+            console.log('update')
+            if (this.myChart) {
+                this.myChart.dispose();
+            }
+            if (this.myChart2) {
+                this.myChart2.dispose();
+            }
+            if (this.myChart3) {
+                this.myChart3.dispose();
+            }
+            if (this.myChart4) {
+                this.myChart4.dispose();
+            }
             this.request.get('/api/tag/popularity/ten')
                 .then(data => {
                     console.log(data);
-                    // const tags = [];
-                    // const questionCount = [];
-                    // const answerCount = [];
-                    // const viewCount = [];
-                    // const totalCount = [];
-                    // let cnt = 0;
                     this.data1 = data.map(item => ({
                         value: item.totalQuestionCount,
                         name: item.topic,
@@ -77,38 +84,159 @@ export default defineComponent({
                         name: item.topic,
                     }));
                     this.$nextTick(() => {
+                        this.myChart = echarts.init(this.$refs.echartsContainer);
+                        this.myChart2 = echarts.init(this.$refs.echartsContainer2);
+                        this.myChart3 = echarts.init(this.$refs.echartsContainer3);
+                        this.myChart4 = echarts.init(this.$refs.echartsContainer4);
+
                         const myChart = echarts.init(this.$refs.echartsContainer);
                         myChart.setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
                             series: [
                                 {
+                                    name: 'Compared By Question Number',
                                     type: 'pie',
+                                    radius: ['40%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    itemStyle: {
+                                        borderRadius: 6,
+                                        borderColor: '#e5e9f2',
+                                        borderWidth: 3
+                                    },
+                                    label: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: 40,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {
+                                        show: false
+                                    },
                                     data: this.data1
                                 }
                             ]
                         });
                         const myChart2 = echarts.init(this.$refs.echartsContainer2);
                         myChart2.setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
                             series: [
                                 {
+                                    name: 'Compared By Answer Number',
                                     type: 'pie',
+                                    radius: ['40%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    itemStyle: {
+                                        borderRadius: 6,
+                                        borderColor: '#e5e9f2',
+                                        borderWidth: 3
+                                    },
+                                    label: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: 40,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {
+                                        show: false
+                                    },
                                     data: this.data2
                                 }
                             ]
                         });
                         const myChart3 = echarts.init(this.$refs.echartsContainer3);
                         myChart3.setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
                             series: [
                                 {
+                                    name: 'Compared By View',
                                     type: 'pie',
+                                    radius: ['40%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    itemStyle: {
+                                        borderRadius: 6,
+                                        borderColor: '#e5e9f2',
+                                        borderWidth: 3
+                                    },
+                                    label: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: 40,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {
+                                        show: false
+                                    },
                                     data: this.data3
                                 }
                             ]
                         });
                         const myChart4 = echarts.init(this.$refs.echartsContainer4);
                         myChart4.setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
                             series: [
                                 {
+                                    name: 'Compared Comprehensively',
                                     type: 'pie',
+                                    radius: ['40%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    itemStyle: {
+                                        borderRadius: 6,
+                                        borderColor: '#e5e9f2',
+                                        borderWidth: 3
+                                    },
+                                    label: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: 40,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {
+                                        show: false
+                                    },
                                     data: this.data4
                                 }
                             ]

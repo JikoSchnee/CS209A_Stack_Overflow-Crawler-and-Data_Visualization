@@ -24,9 +24,9 @@
                  LEFT JOIN connection_tag_and_question ctq ON q.question_id = ctq.question_id
         <if test="keyword != null and keyword != ''">
         WHERE
-            q.question_title LIKE CONCAT('%', #{keyword}, '%')
-            OR q.question_body LIKE CONCAT('%', #{keyword}, '%')
-            OR ctq.tag LIKE CONCAT('%', #{keyword}, '%')
+            LOWER(q.question_title) LIKE CONCAT('%', LOWER(#{keyword}), '%')
+            OR LOWER(q.question_body) LIKE CONCAT('%', LOWER(#{keyword}), '%')
+            OR LOWER(ctq.tag) LIKE CONCAT('%', LOWER(#{keyword}), '%')
         </if>
     </select>
 </mapper>

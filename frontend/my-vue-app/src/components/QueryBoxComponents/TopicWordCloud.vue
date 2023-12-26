@@ -1,6 +1,6 @@
 <template>
     <div>
-
+<!--        <h2>Related Topic</h2>-->
         <div ref="wordCloudChart" style="width: 100%; height: 400px;"></div>
         <el-row :gutter="20" class="el-row" type="flex" justify="center">
             <el-col :span="6">
@@ -33,8 +33,8 @@ export default {
             input: '',
             wordCloudData: [
                 { name: 'Input Topic', value: 100 },
-                // { name: 'React', value: 80 },
-                // { name: 'JavaScript', value: 70 },
+                { name: 'And', value: 80 },
+                { name: 'Click Query', value: 70 },
             ],
             cnt: 200
         };

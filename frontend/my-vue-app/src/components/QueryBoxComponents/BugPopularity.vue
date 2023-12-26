@@ -1,102 +1,162 @@
 <template>
     <div>
-        <el-row :gutter="20" class="grid-content bg-purple">
-            <el-col ><div >
-                <h2>Bug Popularity</h2>
-                <div>
+<!--        <h2>Bug Popularity</h2>-->
+        <el-row>
+            <!-- el-transfer -->
+            <el-col :span="12" >
 
+                <el-transfer v-model="value" :data="data" :titles="['Categories', 'Chosen']" class="transfer">
+                    <!-- Add margin to the label inside the transfer component -->
+                    <template slot="left-footer" slot-scope="{ data }">
+                        <div v-for="item in data" :key="item.key" class="transfer-item">
+                            <el-checkbox :label="item.key" class="checkbox">{{ item.label }}</el-checkbox>
+                        </div>
+                    </template>
+                </el-transfer>
+            </el-col>
+            <!-- Chart container -->
+            <el-col :span="12">
+                <div class="chart-container">
+                    <div ref="echartsContainer" class="chart"></div>
                 </div>
-            </div></el-col>
+            </el-col>
+        </el-row>
+        <el-row>
+
         </el-row>
     </div>
 </template>
 
 <script>
+import * as echarts from "echarts";
 
-import {defineComponent} from "vue";
-import * as echarts from 'echarts';
-
-export default defineComponent({
+export default {
     data() {
-        return {
+        this.words = [
+            //SyntaxError
+            'IndentationError', 'SyntaxError',
+            //Fatal errors
+            'Segmentation Fault', 'Stack Overflow', 'Bus Error',
+            //Exceptions
+            'ZeroDivisionError', 'TypeError',
+            'ValueError', 'FileNotFoundError', 'IndexError', 'KeyError', 'AssertionError',
+            'IOError', 'RuntimeError', 'NameError'
+        ];
+        this.keyword = [
+            'IndentationError', 'SyntaxError',
+            'segmentation-fault', 'overflow', 'bus-error',
+            'ZeroDivisionError', 'TypeError',
+            'ValueError', 'file-not-found', 'IndexError', 'KeyError', 'AssertionError',
+            'IOError', 'RuntimeError', 'NameError'
+        ]
+        const generateData = () => {
+            const data = [];
+            for (let i = 1; i <= this.words.length; i++) {
+                data.push({
+                    key: i,
+                    label: this.words[i - 1],
+                    // disabled: i % 4 === 0,
+                });
+            }
+            return data;
+        };
 
-        }
+        return {
+            data: generateData(),
+            value: [2,12,14],
+            pieChartData : []
+        };
     },
     mounted() {
-        this.updateData();
+        this.generateChart();
     },
     methods: {
-        updateData() {
-            this.request.get('/api/tag/popularity/ten')
-                .then(data => {
-                    console.log(data);
-                    this.data1 = data.map(item => ({
-                        value: item.totalQuestionCount,
-                        name: item.topic,
-                    }));
-                    this.data2 = data.map(item => ({
-                        value: item.totalAnswerCount,
-                        name: item.topic,
-                    }));
-                    this.data3 = data.map(item => ({
-                        value: item.totalViewCount,
-                        name: item.topic,
-                    }));
-                    this.data4 = data.map(item => ({
-                        value: item.popularity,
-                        name: item.topic,
-                    }));
+        generateChart() {
+            console.log('generate pie chart')
+            // console.log(this.value)
+            if (this.myChart) {
+                this.myChart.dispose();
+            }
+            this.pieChartData = [];
+            const requests = this.value.map((val) => {
+                const str = this.keyword[val - 1];
+                return this.request.get('/api/question/count/keyword/' + str)
+                    .then(count => {
+                        // console.log('------this.value------');
+                        // console.log(val);
+                        // console.log(this.words[val - 1]);
+                        // console.log(count);
+                        this.pieChartData.push({ value: count, name: this.words[val - 1] });
+                    });
+            });
+
+            Promise.all(requests)
+                .then(() => {
                     this.$nextTick(() => {
-                        const myChart = echarts.init(this.$refs.echartsContainer);
-                        myChart.setOption({
+                        this.myChart = echarts.init(this.$refs.echartsContainer);
+                        this.myChart.setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
                             series: [
                                 {
+                                    name: 'Bug Popularity',
                                     type: 'pie',
-                                    data: this.data1
-                                }
-                            ]
-                        });
-                        const myChart2 = echarts.init(this.$refs.echartsContainer2);
-                        myChart2.setOption({
-                            series: [
-                                {
-                                    type: 'pie',
-                                    data: this.data2
-                                }
-                            ]
-                        });
-                        const myChart3 = echarts.init(this.$refs.echartsContainer3);
-                        myChart3.setOption({
-                            series: [
-                                {
-                                    type: 'pie',
-                                    data: this.data3
-                                }
-                            ]
-                        });
-                        const myChart4 = echarts.init(this.$refs.echartsContainer4);
-                        myChart4.setOption({
-                            series: [
-                                {
-                                    type: 'pie',
-                                    data: this.data4
+                                    radius: ['40%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    itemStyle: {
+                                        borderRadius: 6,
+                                        borderColor: '#e5e9f2',
+                                        borderWidth: 3
+                                    },
+                                    label: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: 40,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {
+                                        show: false
+                                    },
+                                    data: this.pieChartData
                                 }
                             ]
                         });
                     });
-
-                    console.log(this.data1)
-                })
+                });
         }
     }
-})
-
-
+};
 </script>
 
 <style scoped>
-.chart-row {
-    display: flex;
+h2 {
+    margin-bottom: 20px;
+}
+
+.el-row {
+    margin-bottom: 20px;
+}
+
+.transfer-item {
+    margin-bottom: 8px; /* Adjust the margin as needed */
+}
+
+.checkbox {
+    margin-left: 0
+}
+
+.transfer {
+    text-align: left;
 }
 
 .chart-container {
@@ -108,51 +168,10 @@ export default defineComponent({
 
 .chart {
     width: 100%;
-    height: 400px;
+    height: 300px;
     background: #eceff3;
     border-radius: 10px;
 }
-
-.chart-title {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.el-row {
-    margin-bottom: 20px;
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-}
-.el-col {
-    border-radius: 4px;
-}
-.bg-purple-dark {
-    background: #99a9bf;
-}
-.bg-purple {
-    background: #d3dce6;
-}
-.bg-purple-light {
-    background: #e5e9f2;
-}
-.bg-brown {
-    background: #6e260e;
-}
-.bg-orange-light {
-    background: #e1c16e;
-}
-.bg-orange {
-    background: #cd7f32;
-}
-.grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-}
-.row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-}
 </style>
+/* Add more styling
+

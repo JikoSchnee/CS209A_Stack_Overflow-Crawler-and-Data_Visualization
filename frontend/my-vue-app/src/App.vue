@@ -1,53 +1,48 @@
 <template>
     <div id="app">
-        <testTest />
-        <query-box />
-<!--        <TopicPopularity></TopicPopularity>-->
-<!--        <BugPopularity></BugPopularity>-->
+        <h1>Stack Overflow Data Visualization</h1>
+        <h3>Topic Popularity</h3>
+        <el-button @click="reloadTagPopularity">Reload Topic Popularity</el-button>
+        <TopicPopularity ref="tagPopularityRef" />
+        <h3>Bug Popularity</h3>
+        <el-button @click="reloadBugPopularity">Reload Bug Popularity</el-button>
+        <BugPopularity ref="bugPopularityRef"></BugPopularity>
+        <H3>Related Topic</H3>
         <TopicWordCloud></TopicWordCloud>
-        <BarChart :chartData="barChartData1" />
-        <BarChart :chartData="barChartData2" />
+        <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
     </div>
 </template>
 
 <script>
-import testTest from "@/components/testTest.vue";
-import BarChart from "@/components/Charts/BarChart.vue";
-import QueryBox from "@/components/QueryBox.vue";
-// import TopicPopularity from "@/components/QueryBoxComponents/TopicPopularity.vue";
-// import BugPopularity from "@/components/QueryBoxComponents/BugPopularity.vue";
+import TopicPopularity from "@/components/QueryBoxComponents/TopicPopularity.vue";
+import BugPopularity from "@/components/QueryBoxComponents/BugPopularity.vue";
 import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
 
 export default {
     name: 'App',
     components: {
         TopicWordCloud,
-        // TopicPopularity,
-        // BugPopularity,
-        QueryBox,
-        testTest,
-        BarChart,
+        TopicPopularity,
+        BugPopularity,
     },
     data() {
         return {
-            barChartData1: {
-                title: '图表1',
-                categories: ['A', 'B', 'C', 'D', 'E'],
-                seriesName: '销量',
-                seriesData2: [10, 20, 15, 25, 30],
-            },
-            barChartData2: {
-                title: '图表2',
-                categories: ['X', 'Y', 'Z'],
-                seriesName: '销量',
-                seriesData2: [5, 15, 10],
-            },
+
         };
     },
+    methods: {
+        reloadTagPopularity() {
+            // Call the reload method of the TagPopularity component using the ref
+            this.$refs.tagPopularityRef.updateData();
+        },
+        reloadBugPopularity() {
+            this.$refs.bugPopularityRef.generateChart();
+        }
+    }
 };
 </script>
 
-<style>
+<style scoped>
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
