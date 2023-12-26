@@ -7,6 +7,8 @@
         <h3>Bug Popularity</h3>
         <el-button @click="reloadBugPopularity">Reload Bug Popularity</el-button>
         <BugPopularity ref="bugPopularityRef"></BugPopularity>
+        <el-button @click="reloadBugPopularity2">Reload Bug Popularity</el-button>
+        <BugPopularity2 ref="bugPopularityRef2"></BugPopularity2>
         <H3>Related Topic</H3>
         <TopicWordCloud></TopicWordCloud>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
@@ -17,6 +19,7 @@
 import TopicPopularity from "@/components/QueryBoxComponents/TopicPopularity.vue";
 import BugPopularity from "@/components/QueryBoxComponents/BugPopularity.vue";
 import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
+import BugPopularity2 from "@/components/QueryBoxComponents/BugPopularity2.vue";
 
 export default {
     name: 'App',
@@ -24,6 +27,7 @@ export default {
         TopicWordCloud,
         TopicPopularity,
         BugPopularity,
+        BugPopularity2
     },
     data() {
         return {
@@ -37,6 +41,9 @@ export default {
         },
         reloadBugPopularity() {
             this.$refs.bugPopularityRef.generateChart();
+        },
+        reloadBugPopularity2() {
+            this.$refs.bugPopularityRef2.generateChart();
         }
     }
 };

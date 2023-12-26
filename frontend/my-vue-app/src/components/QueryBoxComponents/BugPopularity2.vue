@@ -1,6 +1,6 @@
 <template>
     <div>
-<!--        <h2>Bug Popularity</h2>-->
+        <!--        <h2>Bug Popularity</h2>-->
         <el-row>
             <!-- el-transfer -->
             <el-col :span="12" >
@@ -30,21 +30,18 @@ import * as echarts from "echarts";
 export default {
     data() {
         this.words = [
-            //SyntaxError
-            'IndentationError', 'SyntaxError',
-            //Fatal errors
-            'Segmentation Fault', 'Stack Overflow', 'Bus Error',
-            //Exceptions
-            'ZeroDivisionError', 'TypeError',
-            'ValueError', 'FileNotFoundError', 'IndexError', 'KeyError', 'AssertionError',
-            'IOError', 'RuntimeError', 'NameError'
+            'SyntaxError', 'Fatal Errors', 'Exception'
+            // //SyntaxError
+            // 'IndentationError', 'SyntaxError',
+            // //Fatal errors
+            // 'Segmentation Fault', 'Stack Overflow', 'Bus Error',
+            // //Exceptions
+            // 'ZeroDivisionError', 'TypeError',
+            // 'ValueError', 'FileNotFoundError', 'IndexError', 'KeyError', 'AssertionError',
+            // 'IOError', 'RuntimeError', 'NameError'
         ];
         this.keyword = [
-            'IndentationError', 'SyntaxError',
-            'segmentation-fault', 'overflow', 'bus-error',
-            'ZeroDivisionError', 'TypeError',
-            'ValueError', 'file-not-found', 'IndexError', 'KeyError', 'AssertionError',
-            'IOError', 'RuntimeError', 'NameError'
+            'SE', 'FE', 'E'
         ]
         const generateData = () => {
             const data = [];
@@ -60,7 +57,7 @@ export default {
 
         return {
             data: generateData(),
-            value: [2,12,14],
+            value: [1,2,3],
             pieChartData : []
         };
     },
@@ -77,7 +74,7 @@ export default {
             this.pieChartData = [];
             const requests = this.value.map((val) => {
                 const str = this.keyword[val - 1];
-                return this.request.get('/api/question/count/keyword/' + str)
+                return this.request.get('/api/bug/popularity/three/' + str)
                     .then(count => {
                         // console.log('------this.value------');
                         // console.log(val);
