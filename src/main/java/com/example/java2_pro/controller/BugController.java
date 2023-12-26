@@ -1,5 +1,6 @@
 package com.example.java2_pro.controller;
 
+import com.example.java2_pro.Java2ProApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.java2_pro.entity.special.BugWithPopularity;
@@ -17,12 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bug")
 public class BugController {
+    private static final Logger LOGGER= LoggerFactory.getLogger(BugController.class);
     @Autowired
     private QuestionService questionService;
 
     // 获取单个bug热度
     @GetMapping("/popularity/keyword/{keyword}")
     public List<Integer> bugPopularity(@PathVariable String keyword){
+        LOGGER.info("keyword: " + keyword);
         return questionService.getQuestionsCountByKeyword(keyword);
     }
 
