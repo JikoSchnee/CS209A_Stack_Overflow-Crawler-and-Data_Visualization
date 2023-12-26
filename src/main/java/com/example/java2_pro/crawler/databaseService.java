@@ -112,7 +112,8 @@ public class databaseService {
                 ");\n" +
                 "CREATE TABLE connection_tag_and_tag(\n" +
                 "   related_tag text not null ,\n" +
-                "   tag text not null\n" +
+                "   tag text not null ,\n" +
+                "   count int not null\n" +
                 ");"
         );
     }
@@ -181,13 +182,14 @@ public class databaseService {
         statement.executeUpdate();
     }
 
-    public void insertConnectionTagAndTag(String related_tag_name, String tag_name) throws SQLException {
+    public void insertConnectionTagAndTag(String related_tag_name, String tag_name, int count) throws SQLException {
         // 插入tag_tag表
         PreparedStatement statement = this.prepareStatement(
-            "insert into connection_tag_and_tag values (?,?)"
+            "insert into connection_tag_and_tag values (?,?,?)"
         );
         statement.setString(1,related_tag_name);
         statement.setString(2,tag_name);
+        statement.setInt(3,count);
         statement.executeUpdate();
     }
 
@@ -228,6 +230,7 @@ public class databaseService {
         // 将相关联的tag插入数据库
         String tag_name = "";
         String related_tag_name = "";
+        Integer related_tag_count = 0;
         JSONArray itemsArray = relatedTagJSON.getJSONArray("items");
         for (int i = 0;i<itemsArray.size();i++){
             JSONObject item = (JSONObject) itemsArray.get(i);
@@ -235,7 +238,8 @@ public class databaseService {
                 tag_name = item.getString("name");
             }else {
                 related_tag_name = item.getString("name");
-                insertConnectionTagAndTag(related_tag_name,tag_name);
+                related_tag_count = item.getInteger("count");
+                insertConnectionTagAndTag(related_tag_name,tag_name,related_tag_count);
             }
         }
     }
@@ -243,12 +247,14 @@ public class databaseService {
         // 将相关联的tag插入数据库
         String tag_name = relatedTagList.get(0).getString("name");
         String related_tag_name;
+        Integer related_tag_count;
         if (relatedTagList.size()<=1){
             return;
         }else {
             for (int i = 1;i<relatedTagList.size();i++){
                 related_tag_name = relatedTagList.get(i).getString("name");
-                insertConnectionTagAndTag(related_tag_name,tag_name);
+                related_tag_count = relatedTagList.get(i).getInteger("count");
+                insertConnectionTagAndTag(related_tag_name,tag_name,related_tag_count);
             }
         }
     }

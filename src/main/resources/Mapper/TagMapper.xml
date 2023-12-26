@@ -90,4 +90,10 @@
         FROM connection_tag_and_tag
         WHERE tag = #{tag_name};
     </select>
+    <select id="getRelevantTagWithPopAll" resultType="com.example.java2_pro.entity.special.RelatedTagWithPopularity">
+        SELECT related_tag, count
+        FROM connection_tag_and_tag
+        WHERE tag = #{tag_name}
+        ORDER BY count DESC ;
+    </select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.example.java2_pro.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.java2_pro.entity.normal.RelatedTagConnect;
 import com.example.java2_pro.entity.normal.Tag;
+import com.example.java2_pro.entity.special.RelatedTagWithPopularity;
 import com.example.java2_pro.entity.special.TagWithPopularity;
 import com.example.java2_pro.mapper.QuestionTagConnectMapper;
 import com.example.java2_pro.mapper.RelatedTagConnectMapper;
@@ -45,6 +47,13 @@ public class TagService {
         return tagMapper.getRelevantTagAll(tagName);
     }
 
+    // 返回某一Tag相关的Tag及其相关次数
+    public List<RelatedTagConnect> getRelevantTagWithPopAll(String tagName) {
+//        return tagMapper.getRelevantTagWithPopAll(tagName);
+        QueryWrapper<RelatedTagConnect> wrapper = new QueryWrapper<RelatedTagConnect>();
+        wrapper.eq("tag",tagName);
+        return relatedTagConnectMapper.selectList(wrapper);
+    }
     // 返回某一Tag相关的Tag的前number个
     public List<String> getRelevantTagPart(String tagName, int number){
         List<String> temp = tagMapper.getRelevantTagAll(tagName);

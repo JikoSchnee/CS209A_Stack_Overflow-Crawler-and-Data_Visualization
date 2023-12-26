@@ -7,7 +7,7 @@ public class crawlerMain {
     private static final String SQL_HOST = "localhost";
     private static final String SQL_USER = "checker";
     private static final String SQL_PASSWORD = "123456";
-    private static final String SQL_DATABASE = "stackoverflow_db";
+    private static final String SQL_DATABASE = "stackoverflow_new";
 //    private static final String SQL_DATABASE = "java2pro";
     private static final int SQL_PORT = 5432;
 //    private static final String KEY = "eiSfjZ8gjeVtdltYIc)SbQ((";
@@ -17,7 +17,7 @@ public class crawlerMain {
     public static void main(String[] args) throws SQLException, IOException {
         databaseService databaseService =
             new databaseService(SQL_HOST,SQL_PORT,SQL_USER,SQL_PASSWORD,SQL_DATABASE);
-        dataCollector dataCollector = new dataCollector(databaseService, 100, 10, 8000,KEY);
+        dataCollector dataCollector = new dataCollector(databaseService, 100, 10, 100,KEY);
         databaseService.connect();
         databaseService.createTable();
         databaseService.disableForeignKeyCheck();

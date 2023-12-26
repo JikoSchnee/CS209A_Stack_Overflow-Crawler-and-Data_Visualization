@@ -1,5 +1,7 @@
 package com.example.java2_pro.controller;
 
+import com.example.java2_pro.entity.normal.RelatedTagConnect;
+import com.example.java2_pro.mapper.TagMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.java2_pro.entity.special.TagWithPopularity;
@@ -20,7 +22,7 @@ public class TagController {
     private TagService tagService;
 
     // 返回10个课上相关的Tag的热度
-    @GetMapping("popularity/ten")
+    @GetMapping("/popularity/ten")
     public List<TagWithPopularity> getTenTagPopularity() {
         LOGGER.info("function: \"getTenTagPopularity\"");
         return tagService.getTenTagPopularity();
@@ -68,5 +70,6 @@ public class TagController {
         tag = tag.toLowerCase();
         return tagService.getRelevantTagPart(tag,number);
     }
+
 
 }
