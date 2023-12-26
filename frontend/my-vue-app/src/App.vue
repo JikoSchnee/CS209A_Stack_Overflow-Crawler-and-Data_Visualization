@@ -53,15 +53,13 @@
 import TopicPopularity from "@/components/TopicPopCompo/TopicPopularity.vue";
 import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
 import BugPopularity from "@/components/BugPopCompo/BugPopularity.vue";
-import BugPopularity2 from "@/components/BugPopCompo/BugPopularity2.vue";
+import BugPopularity2 from "@/components/BugPopCompo/BugPopularityAll.vue";
 import BugPopularitySyntax from "@/components/BugPopCompo/BugPopularitySyntax.vue";
 import BugPopularityFatal from "@/components/BugPopCompo/BugPopularityFatal.vue";
 import BugPopularityExcept from "@/components/BugPopCompo/BugPopularityExcept.vue";
 import BugPopDefault from "@/components/BugPopCompo/BugPopDefault.vue";
 
 export default {
-
-
     name: 'App',
     components: {
         TopicWordCloud,
