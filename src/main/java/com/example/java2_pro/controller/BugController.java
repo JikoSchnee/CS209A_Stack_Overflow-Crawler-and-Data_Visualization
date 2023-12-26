@@ -1,5 +1,7 @@
 package com.example.java2_pro.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.example.java2_pro.entity.special.BugWithPopularity;
 import com.example.java2_pro.service.QuestionService;
 import org.apache.ibatis.javassist.compiler.SyntaxError;

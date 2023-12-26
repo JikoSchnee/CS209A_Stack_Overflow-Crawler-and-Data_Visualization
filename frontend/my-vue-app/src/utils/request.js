@@ -4,7 +4,7 @@ import ElementUI from "element-ui";
 // this.request.get().then((res) => {})
 const request = axios.create({
     baseURL: `apii`,
-    timeout: 5000
+    timeout: 5000000000000000
 })
 
 // request 拦截器
