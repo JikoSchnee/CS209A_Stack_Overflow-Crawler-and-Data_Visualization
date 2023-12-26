@@ -25,13 +25,14 @@ public class BugController {
     // 获取单个bug热度
     @GetMapping("/popularity/keyword/{keyword}")
     public List<Integer> bugPopularity(@PathVariable String keyword){
-        LOGGER.info("keyword: " + keyword);
+        LOGGER.info("function: \"bugPopularity\": " + keyword);
         return questionService.getQuestionsCountByKeyword(keyword);
     }
 
     // 获取多个bug热度
     @GetMapping("/popularity/all")
     public List<BugWithPopularity> bugPopularityAll(){
+        LOGGER.info("function: \"bugPopularityAll\"");
         String[] bugList = new String[]{
         "IndentationError", "SyntaxError",
             "Segmentation Fault", "Stack Overflow", "Bus Error",
@@ -56,6 +57,7 @@ public class BugController {
 
     @GetMapping("/popularity/three/{keyword}")
     public List<Integer> bugPopularityThree(@PathVariable String keyword){
+        LOGGER.info("function: \"bugPopularityThree\": " + keyword);
         String[] bugList = new String[]{
             "IndentationError", "SyntaxError",
 

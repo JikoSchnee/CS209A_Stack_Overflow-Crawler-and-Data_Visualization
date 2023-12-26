@@ -5,10 +5,11 @@
         <el-button @click="reloadTagPopularity">Reload Topic Popularity</el-button>
         <TopicPopularity ref="tagPopularityRef" />
         <h3>Bug Popularity</h3>
-        <el-button @click="reloadBugPopularity">Reload Bug Popularity</el-button>
-        <BugPopularity ref="bugPopularityRef"></BugPopularity>
         <el-button @click="reloadBugPopularity2">Reload Bug Popularity</el-button>
         <BugPopularity2 ref="bugPopularityRef2"></BugPopularity2>
+        <el-button @click="reloadBugPopularity">Reload Bug Popularity</el-button>
+        <BugPopularity ref="bugPopularityRef"></BugPopularity>
+
         <H3>Related Topic</H3>
         <TopicWordCloud></TopicWordCloud>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
