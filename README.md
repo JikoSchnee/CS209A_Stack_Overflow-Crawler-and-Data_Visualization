@@ -1,6 +1,6 @@
 # Stack Overflow Data Visualization
 
-[![GitHub](https://img.shields.io/badge/-JikoSchnee-black?logo=github)](https://github.com/JikoSchnee)[![Bilibili](https://img.shields.io/badge/-JIK0-pink?logo=bilibili)](https://space.bilibili.com/:your-username)
+[![GitHub](https://img.shields.io/badge/-JikoSchnee-black?logo=github)](https://github.com/JikoSchnee)
 
 ## Instruction
 
