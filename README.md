@@ -34,3 +34,8 @@ Make sure the parameters are the same as the database you are willing to use.
 
 In package.json, run scripts "serve".
 
+![image-20231227180838751](./README.assets/image-20231227180838751.png)
+
+![image-20231227180902042](./README.assets/image-20231227180902042.png)
+
+![image-20231227180927269](./README.assets/image-20231227180927269.png)
