@@ -44,14 +44,15 @@
 
 
         <H3>Related Topic</H3>
-        <TopicWordCloud></TopicWordCloud>
-        <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
+<!--        <TopicWordCloud></TopicWordCloud>-->
+        <TopicWordCloudNew></TopicWordCloudNew>
     </div>
 </template>
 
 <script>
 import TopicPopularity from "@/components/TopicPopCompo/TopicPopularity.vue";
-import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
+// import TopicWordCloud from "@/components/QueryBoxComponents/TopicWordCloud.vue";
+import TopicWordCloudNew from "@/components/QueryBoxComponents/TopicWordCloudNew.vue";
 import BugPopularity from "@/components/BugPopCompo/BugPopularity.vue";
 import BugPopularity2 from "@/components/BugPopCompo/BugPopularityAll.vue";
 import BugPopularitySyntax from "@/components/BugPopCompo/BugPopularitySyntax.vue";
@@ -62,7 +63,8 @@ import BugPopDefault from "@/components/BugPopCompo/BugPopDefault.vue";
 export default {
     name: 'App',
     components: {
-        TopicWordCloud,
+        // TopicWordCloud,
+        TopicWordCloudNew,
         TopicPopularity,
         BugPopularity,
         BugPopularity2,

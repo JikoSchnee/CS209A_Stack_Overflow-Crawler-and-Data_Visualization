@@ -17,7 +17,7 @@ public class RelatedTagController {
     @Autowired
     TagService tagService;
     // 返回某个Tag相关的Tag及其热度
-    @GetMapping("/{tag}/popularity")
+    @GetMapping("/{tag}")
     public List<RelatedTagConnect> getRelevantTagWithPopAll(@PathVariable String tag){
 //        LOGGER.info("function: \"getRelevantTagWithPopAll\"");
         List<RelatedTagConnect> temp = tagService.getRelevantTagWithPopAll(tag);

@@ -17,7 +17,7 @@ public class crawlerMain {
     public static void main(String[] args) throws SQLException, IOException {
         databaseService databaseService =
             new databaseService(SQL_HOST,SQL_PORT,SQL_USER,SQL_PASSWORD,SQL_DATABASE);
-        dataCollector dataCollector = new dataCollector(databaseService, 100, 10, 100,KEY);
+        dataCollector dataCollector = new dataCollector(databaseService, 100, 100, 3000,KEY);
         databaseService.connect();
         databaseService.createTable();
         databaseService.disableForeignKeyCheck();
