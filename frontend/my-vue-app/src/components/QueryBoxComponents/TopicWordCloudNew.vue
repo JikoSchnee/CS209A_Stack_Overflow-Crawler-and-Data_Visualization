@@ -46,7 +46,11 @@ export default {
                 { name: 'And', value: 80 },
                 { name: 'Click Query', value: 70 },
             ],
-            barChartData: [],
+            barChartData: [
+                { name: 'Input Topic', value: 100 },
+                { name: 'And', value: 80 },
+                { name: 'Click Query', value: 70 },
+            ],
             cnt: 200,
             isWordCloudVisible: true,
             isBarChartVisible: true,
@@ -108,7 +112,7 @@ export default {
                 dataset: [
                     {
                         dimensions: ['name', 'value'],
-                        source: this.wordCloudData
+                        source: this.barChartData
                     },
                     {
                         transform: {
