@@ -5,4 +5,4 @@ import com.example.java2_pro.entity.normal.QuestionTagConnect;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface QuestionTagConnectMapper extends BaseMapper<QuestionTagConnect> { }
+public interface QuestionTagConnectMapper extends BaseMapper<QuestionTagConnect> {}

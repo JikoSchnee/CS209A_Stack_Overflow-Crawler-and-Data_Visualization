@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class dataCollector {
-    private String key;
+    private final String key;
     private int totalNumber; // 获取的数据条数
     private int pageSize; // 分页获取数据时每页的大小 [1, 100]
     private int pageStep; // 分页获取数据时每次获取所隔的页数
@@ -48,8 +48,6 @@ public class dataCollector {
         // 自定义每页大小和每次获取所隔的页数
         this.databaseService = databaseService;
         questionList = new ArrayList<>();
-//        answerList = new ArrayList<>();
-//        commentList = new ArrayList<>();
         this.pageSize = pageSize;
         this.pageStep = pageStep;
         this.totalNumber = totalNumber;
@@ -63,11 +61,8 @@ public class dataCollector {
 
             // 建立数据库连接
             String url = String.format("jdbc:postgresql://%s:%s/%s",this.databaseService.getHost(),this.databaseService.getPort(),this.databaseService.getDatabase());
-//            String url = "jdbc:postgresql://localhost:5432/stackoverflow_db";
             String user = this.databaseService.getUser();
-//            String user = "checker";
             String password = this.databaseService.getPassword();
-//            String password = "123456";
             Connection connection = DriverManager.getConnection(url, user, password);
 
             return connection;

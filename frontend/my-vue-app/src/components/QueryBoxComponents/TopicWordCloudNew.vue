@@ -1,14 +1,10 @@
 <template>
     <div>
-<!--        <el-button-group>-->
-<!--            <el-button type="primary" plain @click="wordCloudVisible">Word Cloud</el-button>-->
-<!--            <el-button type="primary" plain @click="barChartVisible">Bar Chart</el-button>-->
-<!--        </el-button-group>-->
-        <el-row :gutter="0" justify="center">
+        <el-row  justify="center">
             <el-col :span="6" v-if="isWordCloudVisible">
                 <div ref="wordCloudChart" style="width: 130%; height: 400px;"></div>
             </el-col>
-            <el-col :span="10" v-if="isBarChartVisible" pull="100">
+            <el-col :span="10" v-if="isBarChartVisible">
                 <div ref="barChart" style="width: 185%; height: 400px;"></div>
             </el-col>
         </el-row>
@@ -27,6 +23,12 @@
                 <el-button-group>
                     <el-button type="primary" plain @click="queryWordCloud">query</el-button>
                 </el-button-group>
+                <el-dialog :visible.sync="showInputError" title="Input Error" width="30%">
+                    <p>Invalid input! Only letters, spaces, and hyphens are allowed.</p>
+                </el-dialog>
+                <el-dialog :visible.sync="showQueryFailDialog" title="Query Failed" width="30%">
+                    <p>No related results found for the given input.</p>
+                </el-dialog>
             </el-col>
         </el-row>
 
@@ -54,6 +56,8 @@ export default {
             cnt: 200,
             isWordCloudVisible: true,
             isBarChartVisible: true,
+            showInputError: false,
+            showQueryFailDialog: false
         };
     },
     mounted() {
@@ -71,6 +75,18 @@ export default {
             this.isBarChartVisible = true
         },
         async queryWordCloud() {
+            const isValidInput = /^[a-zA-Z0-9\s-]+$/.test(this.input);
+
+            if (!isValidInput) {
+                // Show error message and return without making the API request
+                this.showInputError = true;
+                return;
+            }
+
+            // Clear previous error message if any
+            this.showInputError = false;
+            this.showQueryFailDialog = false;
+
             try {
                 let str = '/api/relatedTag/' + this.input.replace(/\s+/g, '-').toLowerCase()
                 this.request.get(str)
@@ -91,7 +107,8 @@ export default {
                             this.drawWordCloud();
                             this.drawBarChart();
                         }else {
-                            console.log("fail")
+                            this.showQueryFailDialog = true;
+                            console.log("Query Fail")
                         }
 
                     })
@@ -192,7 +209,10 @@ export default {
 </script>
 
 <style scoped>
-
+.input-error {
+    color: red;
+    margin-top: 5px;
+}
 .el-row {
     margin-bottom: 20px;
 

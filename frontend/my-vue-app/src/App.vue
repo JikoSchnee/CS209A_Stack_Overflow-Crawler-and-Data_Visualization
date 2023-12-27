@@ -7,7 +7,7 @@
         <h3>Bug Popularity</h3>
 
 
-        <el-row justify="center" gutter="0">
+        <el-row justify="center" >
             <el-button-group>
                 <el-button type="primary" @click = "BetweenOnly" plain>Between</el-button>
                 <el-button type="primary" @click = "SyntaxOnly" plain>Syntax Errors</el-button>
