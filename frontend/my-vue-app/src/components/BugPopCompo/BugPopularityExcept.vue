@@ -87,7 +87,8 @@ export default {
                         this.myChart = echarts.init(this.$refs.echartsContainer);
                         this.myChart.setOption({
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
+                                formatter: '{a} <br/>{b}: {c} ({d}%)' // 百分比显示
                             },
                             legend: {
                                 top: '5%',

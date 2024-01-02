@@ -1,11 +1,20 @@
 <template xmlns:el-col="http://www.w3.org/1999/html">
     <div id="app">
         <h1>Stack Overflow Data Visualization</h1>
+        <p>
+            This is a webpage that visualizes 3000 threads of question related to Java from the Stack Overflow website.<br>
+            It primarily includes sections on Topic Popularity, Bug Popularity, and Related topics.
+        </p>
         <h3>Topic Popularity</h3>
+        <p>
+            Click to select a range to hide.
+        </p>
         <el-button type="primary" @click="reloadTagPopularity" circle plain><i class="el-icon-refresh"></i></el-button>
         <TopicPopularity ref="tagPopularityRef" />
         <h3>Bug Popularity</h3>
-
+        <p>
+            Click to select a range to hide.
+        </p>
 
         <el-row justify="center" >
             <el-button-group>
@@ -44,6 +53,9 @@
 
 
         <H3>Related Topic</H3>
+        <p>
+            Scalable and draggable bar chart.
+        </p>
 <!--        <TopicWordCloud></TopicWordCloud>-->
         <TopicWordCloudNew></TopicWordCloudNew>
     </div>

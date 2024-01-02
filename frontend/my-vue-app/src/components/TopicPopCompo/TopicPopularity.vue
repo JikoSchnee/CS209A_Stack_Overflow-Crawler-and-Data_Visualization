@@ -92,7 +92,8 @@ export default defineComponent({
                         const myChart = echarts.init(this.$refs.echartsContainer);
                         myChart.setOption({
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
+                                formatter: '{a} <br/>{b}: {c} ({d}%)' // 百分比显示
                             },
                             legend: {
                                 top: '5%',
@@ -130,7 +131,8 @@ export default defineComponent({
                         const myChart2 = echarts.init(this.$refs.echartsContainer2);
                         myChart2.setOption({
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
+                                formatter: '{a} <br/>{b}: {c} ({d}%)' // 百分比显示
                             },
                             legend: {
                                 top: '5%',
@@ -168,7 +170,8 @@ export default defineComponent({
                         const myChart3 = echarts.init(this.$refs.echartsContainer3);
                         myChart3.setOption({
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
+                                formatter: '{a} <br/>{b}: {c} ({d}%)' // 百分比显示
                             },
                             legend: {
                                 top: '5%',
@@ -206,7 +209,8 @@ export default defineComponent({
                         const myChart4 = echarts.init(this.$refs.echartsContainer4);
                         myChart4.setOption({
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
+                                formatter: '{a} <br/>{b}: {c} ({d}%)' // 百分比显示
                             },
                             legend: {
                                 top: '5%',

@@ -75,7 +75,7 @@ export default {
             this.isBarChartVisible = true
         },
         async queryWordCloud() {
-            const isValidInput = /^[a-zA-Z0-9\s-]+$/.test(this.input);
+            const isValidInput = /^[a-zA-Z0-9\s#+\-*.]+$/.test(this.input);
 
             if (!isValidInput) {
                 // Show error message and return without making the API request
@@ -88,16 +88,16 @@ export default {
             this.showQueryFailDialog = false;
 
             try {
-                let str = '/api/relatedTag/' + this.input.replace(/\s+/g, '-').toLowerCase()
+                let str = '/api/relatedTag/' + this.input.trim().replace(/\s+/g, '-').toLowerCase();
                 this.request.get(str)
                     .then(data => {
                         console.log(data)
                         // Convert the array of strings into an array of objects with name and value properties
-                        if (data.length >=1 ){
+                        if (data.length >= 1) {
                             const maxCount = Math.max(...data.map(item => item.count));
                             this.wordCloudData = data.map(item => ({
                                 name: item.relatedTag,
-                                value: Math.floor(item.count/maxCount * 500) + 100, // You can replace this with actual values
+                                value: Math.floor(item.count / maxCount * 500) + 100, // You can replace this with actual values
                             }));
                             this.barChartData = data.map(item => ({
                                 name: item.relatedTag,
@@ -106,11 +106,32 @@ export default {
                             // Redraw the word cloud with the updated data
                             this.drawWordCloud();
                             this.drawBarChart();
-                        }else {
-                            this.showQueryFailDialog = true;
-                            console.log("Query Fail")
+                        } else {
+                            // If no result, search using the first word
+                            const firstWord = this.input.trim().split(/\s+/)[0].toLowerCase();
+                            let fallbackStr = '/api/relatedTag/' + firstWord;
+                            this.request.get(fallbackStr)
+                                .then(fallbackData => {
+                                    console.log("Fallback Data:", fallbackData);
+                                    if (fallbackData.length >= 1) {
+                                        const maxCount = Math.max(...fallbackData.map(item => item.count));
+                                        this.wordCloudData = fallbackData.map(item => ({
+                                            name: item.relatedTag,
+                                            value: Math.floor(item.count / maxCount * 500) + 100,
+                                        }));
+                                        this.barChartData = fallbackData.map(item => ({
+                                            name: item.relatedTag,
+                                            value: item.count
+                                        }));
+                                        // Redraw the word cloud with the updated data
+                                        this.drawWordCloud();
+                                        this.drawBarChart();
+                                    } else {
+                                        this.showQueryFailDialog = true;
+                                        console.log("Query Fail")
+                                    }
+                                });
                         }
-
                     })
             } catch (error) {
                 console.error('Error fetching data:', error);
